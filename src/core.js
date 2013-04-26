@@ -27,7 +27,7 @@
  *  This Function object extension method creates a bound method similar
  *  to those in Python.  This means that the 'this' object will point
  *  to the instance you want.  See
- *  <a href='https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind'>MDC's bind() documentation</a> and 
+ *  <a href='https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind'>MDC's bind() documentation</a> and
  *  <a href='http://benjamin.smedbergs.us/blog/2007-01-03/bound-functions-and-function-imports-in-javascript/'>Bound Functions and Function Imports in JavaScript</a>
  *  for a complete explanation.
  *
@@ -36,7 +36,7 @@
  *
  *  Parameters:
  *    (Object) obj - The object that will become 'this' in the bound function.
- *    (Object) argN - An option argument that will be prepended to the 
+ *    (Object) argN - An option argument that will be prepended to the
  *      arguments given for the function call
  *
  *  Returns:
@@ -198,67 +198,67 @@ Strophe = {
     },
 
 
-    /** Constants: XHTML_IM Namespace 
-     *  contains allowed tags, tag attributes, and css properties. 
+    /** Constants: XHTML_IM Namespace
+     *  contains allowed tags, tag attributes, and css properties.
      *  Used in the createHtml function to filter incoming html into the allowed XHTML-IM subset.
      *  See http://xmpp.org/extensions/xep-0071.html#profile-summary for the list of recommended
      *  allowed tags and their attributes.
      */
     XHTML: {
-		tags: ['a','blockquote','br','cite','em','img','li','ol','p','span','strong','ul','body'],
-		attributes: {
-			'a':          ['href'],
-			'blockquote': ['style'],
-			'br':         [],
-			'cite':       ['style'],
-			'em':         [],
-			'img':        ['src', 'alt', 'style', 'height', 'width'],
-			'li':         ['style'],
-			'ol':         ['style'],
-			'p':          ['style'],
-			'span':       ['style'],
-			'strong':     [],
-			'ul':         ['style'],
-			'body':       []
-		},
-		css: ['background-color','color','font-family','font-size','font-style','font-weight','margin-left','margin-right','text-align','text-decoration'],
-		validTag: function(tag)
-		{
-			for(var i = 0; i < Strophe.XHTML.tags.length; i++) {
-				if(tag == Strophe.XHTML.tags[i]) {
-					return true;
-				}
-			}
-			return false;
-		},
-		validAttribute: function(tag, attribute)
-		{
-			if(typeof Strophe.XHTML.attributes[tag] !== 'undefined' && Strophe.XHTML.attributes[tag].length > 0) {
-				for(var i = 0; i < Strophe.XHTML.attributes[tag].length; i++) {
-					if(attribute == Strophe.XHTML.attributes[tag][i]) {
-						return true;
-					}
-				}
-			}
-			return false;
-		},
-		validCSS: function(style)
-		{
-			for(var i = 0; i < Strophe.XHTML.css.length; i++) {
-				if(style == Strophe.XHTML.css[i]) {
-					return true;
-				}
-			}
-			return false;
-		}
+        tags: ['a','blockquote','br','cite','em','img','li','ol','p','span','strong','ul','body'],
+        attributes: {
+            'a':          ['href'],
+            'blockquote': ['style'],
+            'br':         [],
+            'cite':       ['style'],
+            'em':         [],
+            'img':        ['src', 'alt', 'style', 'height', 'width'],
+            'li':         ['style'],
+            'ol':         ['style'],
+            'p':          ['style'],
+            'span':       ['style'],
+            'strong':     [],
+            'ul':         ['style'],
+            'body':       []
+        },
+        css: ['background-color','color','font-family','font-size','font-style','font-weight','margin-left','margin-right','text-align','text-decoration'],
+        validTag: function(tag)
+        {
+            for(var i = 0; i < Strophe.XHTML.tags.length; i++) {
+                if(tag == Strophe.XHTML.tags[i]) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        validAttribute: function(tag, attribute)
+        {
+            if(typeof Strophe.XHTML.attributes[tag] !== 'undefined' && Strophe.XHTML.attributes[tag].length > 0) {
+                for(var i = 0; i < Strophe.XHTML.attributes[tag].length; i++) {
+                    if(attribute == Strophe.XHTML.attributes[tag][i]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        validCSS: function(style)
+        {
+            for(var i = 0; i < Strophe.XHTML.css.length; i++) {
+                if(style == Strophe.XHTML.css[i]) {
+                    return true;
+                }
+            }
+            return false;
+        }
     },
 
-    /** Function: addNamespace 
+    /** Function: addNamespace
      *  This function is used to extend the current namespaces in
-     *	Strophe.NS.  It takes a key and a value with the key being the
-     *	name of the new namespace, with its actual value.
-     *	For example:
-     *	Strophe.addNamespace('PUBSUB', "http://jabber.org/protocol/pubsub");
+     *  Strophe.NS.  It takes a key and a value with the key being the
+     *  name of the new namespace, with its actual value.
+     *  For example:
+     *  Strophe.addNamespace('PUBSUB', "http://jabber.org/protocol/pubsub");
      *
      *  Parameters:
      *    (String) name - The name under which the namespace will be
@@ -267,7 +267,7 @@ Strophe = {
      */
     addNamespace: function (name, value)
     {
-	    Strophe.NS[name] = value;
+        Strophe.NS[name] = value;
     },
 
     /** Constants: Connection Status Constants
@@ -385,11 +385,7 @@ Strophe = {
     _makeGenerator: function () {
         var doc;
 
-        // IE9 does implement createDocument(); however, using it will cause the browser to leak memory on page unload.
-        // Here, we test for presence of createDocument() plus IE's proprietary documentMode attribute, which would be 
-		// less than 10 in the case of IE9 and below.
-        if (document.implementation.createDocument === undefined || 
-			document.implementation.createDocument && document.documentMode && document.documentMode < 10) {
+        if (document.implementation.createDocument === undefined) {
             doc = this._getIEXmlDom();
             doc.appendChild(doc.createElement('strophe'));
         } else {
@@ -507,7 +503,7 @@ Strophe = {
      *  Parameters:
      *     (String) text - text to escape.
      *
-     *	Returns:
+     *  Returns:
      *      Escaped text.
      */
     xmlescape: function(text)
@@ -1256,8 +1252,8 @@ Strophe.Handler = function (handler, ns, name, type, id, from, options)
     this.name = name;
     this.type = type;
     this.id = id;
-    this.options = options || {matchBare: false};
-    
+    this.options = options || {matchbare: false};
+
     // default matchBare to false if undefined
     if (!this.options.matchBare) {
         this.options.matchBare = false;
@@ -1287,7 +1283,7 @@ Strophe.Handler.prototype = {
     {
         var nsMatch;
         var from = null;
-        
+
         if (this.options.matchBare) {
             from = Strophe.getBareJidFromJid(elem.getAttribute('from'));
         } else {
@@ -1472,14 +1468,14 @@ Strophe.TimedHandler.prototype = {
  */
 Strophe.Connection = function (service)
 {
-	if(service.protocol) {
-		this.protocol = service.protocol;
-	}
-	else {
-		console.log("Warning : this syntax will be deprecated to leave room for othe protocols. Please use new Strophe.Connection({proto : new Strophe.Bosh(BOSH_SERVICE)})" )
-	    /* The path to the httpbind service. */
-	    this.protocol = new Strophe.Bosh(service);
-	}
+    if(service.protocol) {
+        this.protocol = service.protocol;
+    }
+    else {
+        console.log("Warning : this syntax will be deprecated to leave room for othe protocols. Please use new Strophe.Connection({proto : new Strophe.Bosh(BOSH_SERVICE)})" )
+        /* The path to the httpbind service. */
+        this.protocol = new Strophe.Bosh(service);
+    }
 
     /* The connected JID. */
     this.jid = "";
@@ -1502,11 +1498,11 @@ Strophe.Connection = function (service)
     this.addHandlers = [];
 
     this._authentication = {};
-/* TODO: Check if this is needed
+
     // setup onIdle callback every 1/10th of a second
     this._idleTimeout = setTimeout(this._onIdle.bind(this), 100);
     this._disconnectTimeout = null;
-*/
+
 
     this.do_authentication = true;
     this.authenticated = false;
@@ -1518,7 +1514,7 @@ Strophe.Connection = function (service)
     this.paused = false;
 
     this._uniqueId = Math.round(Math.random() * 10000);
-    
+
     this._stanzas = [];
 
     this._sasl_success_handler = null;
@@ -1526,7 +1522,7 @@ Strophe.Connection = function (service)
     this._sasl_challenge_handler = null;
     this._throttle_stanzas_handler = null;
 
-	this.max_stanzas_per_second = 10; // Traffic shaper at 10 stanzas per second, max.
+    this.max_stanzas_per_second = 10; // Traffic shaper at 10 stanzas per second, max.
 
     // Max retries before disconnecting
     this.maxRetries = 5;
@@ -1574,7 +1570,7 @@ Strophe.Connection.prototype = {
 
         this._stanzas = [];
         this._uniqueId = Math.round(Math.random()*10000);
-        
+
         this.protocol.reset();
     },
 
@@ -1655,10 +1651,11 @@ Strophe.Connection.prototype = {
      *    (Integer) wait - The optional HTTPBIND wait value.  This is the
      *      time the server will wait before returning an empty result for
      *      a request.  The default setting of 60 seconds is recommended.
+     *      Other settings will require tweaks to the Strophe.TIMEOUT value.
      *    (Integer) hold - The optional HTTPBIND hold value.  This is the
      *      number of connections the server will hold at one time.  This
      *      should almost always be set to 1 (the default).
-	 *    (String) route
+     *    (String) route
      */
     connect: function (jid, pass, callback, wait, hold, route)
     {
@@ -1679,11 +1676,11 @@ Strophe.Connection.prototype = {
         this.protocol.connect(this, _connect_cb, wait, hold, route);
 
         this._changeConnectStatus(Strophe.Status.CONNECTING, null);
-        
-		// Let's start the throttler.
-		this._throttleStanzas();
+
+        // Let's start the throttler.
+        this._throttleStanzas();
     },
-    
+
     /** Function: attach
      *  Attach to an already created and authenticated BOSH session.
      *
@@ -1718,18 +1715,18 @@ Strophe.Connection.prototype = {
         }
         this.jid = jid;
         this.connect_callback = callback;
-        
+
         this.domain = Strophe.getDomainFromJid(this.jid);
-        
+
         this.authenticated = true;
         this.connected = true;
-        
+
         this.protocol.attach(this, sid, rid, wait, hold, wind);
 
         this._changeConnectStatus(Strophe.Status.ATTACHED, null);
-        
-		// Let's start the throttler.
-		this._throttleStanzas();
+
+        // Let's start the throttler.
+        this._throttleStanzas();
     },
 
     /** Function: xmlInput
@@ -1803,8 +1800,8 @@ Strophe.Connection.prototype = {
     /** Function: send
      *  Send a stanza.
      *
-     *  This function is called to push data to the server through the 
-	 *  protocol object.
+     *  This function is called to push data to the server through the
+     *  protocol object.
      *
      *  Parameters:
      *    (XMLElement |
@@ -1837,7 +1834,11 @@ Strophe.Connection.prototype = {
      */
     flush: function ()
     {
+        // cancel the pending idle period and run the idle function
+        // immediately
+        clearTimeout(this._idleTimeout);
         this.protocol.flush();
+        this._onIdle();
     },
 
     /** Function: sendIQ
@@ -1926,7 +1927,7 @@ Strophe.Connection.prototype = {
                 message: "Cannot queue non-DOMElement."
             };
         }
-        
+
         this._stanzas.push(element);
     },
 
@@ -1936,6 +1937,8 @@ Strophe.Connection.prototype = {
     _sendRestart: function ()
     {
         this.protocol.restart();
+        clearTimeout(this._idleTimeout);
+        this._idleTimeout = setTimeout(this._onIdle.bind(this), 100);
     },
 
     /** Function: addTimedHandler
@@ -2121,7 +2124,7 @@ Strophe.Connection.prototype = {
         Strophe.info("_doDisconnect was called");
         this.authenticated = false;
         this.disconnecting = false;
-        
+
         this.protocol._doDisconnect();
 
         // tell the parent we disconnected
@@ -2138,7 +2141,7 @@ Strophe.Connection.prototype = {
         this.addTimeds = [];
         this.addHandlers = [];
     },
-    
+
     receiveData: function(elem) {
         // remove handlers scheduled for deletion
         var i, hand;
@@ -2162,7 +2165,7 @@ Strophe.Connection.prototype = {
             this._doDisconnect();
             return;
         }
-        
+
         // send each incoming stanza through the handler chain
         var i, newList;
         // process handlers
@@ -2217,12 +2220,10 @@ Strophe.Connection.prototype = {
 
         // Check for the stream:features tag
         var hasFeatures = elem.getElementsByTagName("stream:features").length > 0 || elem.nodeName === "stream:features";
-        console.log(hasFeatures);
         if (!hasFeatures) {
             hasFeatures = elem.getElementsByTagName("features").length > 0 || elem.nodeName == "features";
         }
         var mechanisms = elem.getElementsByTagName("mechanism");
-        console.log(mechanisms);
         var i, mech, auth_str, hashed_auth_str,
             found_authentication = false;
         if (hasFeatures && mechanisms.length > 0) {
@@ -2729,10 +2730,10 @@ Strophe.Connection.prototype = {
     {
         if (elem.getAttribute("type") == "error") {
             Strophe.info("SASL binding failed.");
-			var conflict = elem.getElementsByTagName("conflict"), condition;
-			if (conflict.length > 0) {
-				condition = 'conflict';
-			}
+            var conflict = elem.getElementsByTagName("conflict"), condition;
+            if (conflict.length > 0) {
+                condition = 'conflict';
+            }
             this._changeConnectStatus(Strophe.Status.AUTHFAIL, condition);
             return false;
         }
@@ -2900,24 +2901,79 @@ Strophe.Connection.prototype = {
 
         return false;
     },
-    
-    /** PrivateFunction: _throttleStanzas
-	*  _Private_ function to throttle stanzas sent to the protocol.
-	*
-	*  Most servers will implement traffic shapers to ensure that a given client does 
-	*  not consume too many resources.
-	*  This function just picks stanza in the _stanzas FIFO and sends them to the 
-	*  protocol layer. The protocol layer may also very well implement a specific 
-	*  throttling, based on their needs.
 
-	*/
-	_throttleStanzas: function () {
-		stanza = this._stanzas.shift();
-		if(stanza) {
-			this.protocol.send(stanza);
-		}
-		this._throttle_stanzas_handler = setTimeout(this._throttleStanzas.bind(this), 100 * 1/this.max_stanzas_per_second); // 
-	}
+
+    /** PrivateFunction: _onIdle
+     *  _Private_ handler to process events during idle cycle.
+     *
+     *  This handler is called every 100ms to fire timed handlers that
+     *  are ready and keep poll requests going.
+     */
+    _onIdle: function ()
+    {
+        var i, thand, since, newList;
+
+        // add timed handlers scheduled for addition
+        // NOTE: we add before remove in the case a timed handler is
+        // added and then deleted before the next _onIdle() call.
+        while (this.addTimeds.length > 0) {
+            this.timedHandlers.push(this.addTimeds.pop());
+        }
+
+        // remove timed handlers that have been scheduled for deletion
+        while (this.removeTimeds.length > 0) {
+            thand = this.removeTimeds.pop();
+            i = this.timedHandlers.indexOf(thand);
+            if (i >= 0) {
+                this.timedHandlers.splice(i, 1);
+            }
+        }
+
+        // call ready timed handlers
+        var now = new Date().getTime();
+        newList = [];
+        for (i = 0; i < this.timedHandlers.length; i++) {
+            thand = this.timedHandlers[i];
+            if (this.authenticated || !thand.user) {
+                since = thand.lastCalled + thand.period;
+                if (since - now <= 0) {
+                    if (thand.run()) {
+                        newList.push(thand);
+                    }
+                } else {
+                    newList.push(thand);
+                }
+            }
+        }
+        this.timedHandlers = newList;
+
+        this.protocol._onIdle();
+
+        clearTimeout(this._idleTimeout);
+
+        // reactivate the timer only if connected
+        if (this.connected) {
+            this._idleTimeout = setTimeout(this._onIdle.bind(this), 100);
+        }
+    },
+
+    /** PrivateFunction: _throttleStanzas
+    *  _Private_ function to throttle stanzas sent to the protocol.
+    *
+    *  Most servers will implement traffic shapers to ensure that a given client does
+    *  not consume too many resources.
+    *  This function just picks stanza in the _stanzas FIFO and sends them to the
+    *  protocol layer. The protocol layer may also very well implement a specific
+    *  throttling, based on their needs.
+
+    */
+    _throttleStanzas: function () {
+        var stanza = this._stanzas.shift();
+        if(stanza) {
+            this.protocol.send(stanza);
+        }
+        this._throttle_stanzas_handler = setTimeout(this._throttleStanzas.bind(this), 100 * 1/this.max_stanzas_per_second); //
+    }
 };
 
 if (callback) {

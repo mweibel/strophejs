@@ -17,8 +17,7 @@
  *    (Integer) sends - The number of times this same request has been
  *      sent.
  */
-Strophe.Request = function (elem, func, rid, sends)
-{
+Strophe.Request = function (elem, func, rid, sends) {
     this.id = ++Strophe._requestId;
     this.xmlData = elem;
     this.data = Strophe.serialize(elem);
@@ -128,20 +127,20 @@ Strophe.Bosh = function(service)
     this.wait = 60;
     this.window = 5;
 
-	// Connection
-	this.connection = null;
-	
+    // Connection
+    this.connection = null;
+
     this._data = [];
-	// Requests stack.
-	this._requests = [];    
-	
+    // Requests stack.
+    this._requests = [];
+
     this._sendNextRequestTimeout = null;
-	this.connected = false;
-	this.disconnecting = false;    
+    this.connected = false;
+    this.disconnecting = false;
 }
 
 Strophe.Bosh.prototype = {
-    
+
     /** PrivateConstants: Timeout Values
      *  Timeout values for error states.  These values are in seconds.
      *  These should not be changed unless you know exactly what you are
@@ -158,18 +157,18 @@ Strophe.Bosh.prototype = {
      */
     TIMEOUT: 1.1,
     SECONDARY_TIMEOUT: 0.1,
-    
+
     /** Function: reset
      *  Reset BOSH
      */
     reset: function()
-    {        
+    {
         this.rid = Math.floor(Math.random() * 4294967295);
 
         this.sid = null;
         this.streamId = null;
     },
-    
+
     /** Function: connect
      *  Starts the connection process.
      *
@@ -194,14 +193,14 @@ Strophe.Bosh.prototype = {
      *    (Integer) hold - The optional HTTPBIND hold value.  This is the
      *      number of connections the server will hold at one time.  This
      *      should almost always be set to 1 (the default).
-	 *    (String) route
+     *    (String) route
      */
     connect: function(connection, callback, wait, hold, route) {
         this.connection = connection;
-        
+
         this.wait = wait || this.wait;
         this.hold = hold || this.hold;
-        
+
         // build the body tag
         var body = this._buildBody().attrs({
             to: this.connection.domain,
@@ -214,11 +213,11 @@ Strophe.Bosh.prototype = {
             "xmlns:xmpp": Strophe.NS.BOSH
         });
 
-		if(route){
-			body.attrs({
-				route: route
-			});
-		}
+        if(route){
+            body.attrs({
+                route: route
+            });
+        }
 
         this._requests.push(
             new Strophe.Request(body.tree(),
@@ -228,7 +227,7 @@ Strophe.Bosh.prototype = {
 
         this._throttledRequestHandler();
     },
-    
+
     /** Function: attach
      *  Attach to an already created and authenticated BOSH session.
      *
@@ -262,8 +261,8 @@ Strophe.Bosh.prototype = {
         this.hold = hold || this.hold;
         this.window = wind || this.window;
     },
-    
-    disconnect: function() 
+
+    disconnect: function()
     {
         Strophe.info("disconnect was called");
         var body = this._buildBody().attrs({type: "terminate"});
@@ -285,8 +284,8 @@ Strophe.Bosh.prototype = {
         this._requests.push(req);
         this._throttledRequestHandler();
     },
-    
-    
+
+
     /** PrivateFunction: _buildBody
      *  _Private_ helper function to generate the <body/> wrapper for BOSH.
      *
@@ -306,7 +305,7 @@ Strophe.Bosh.prototype = {
 
         return bodyWrap;
     },
-    
+
     /** PrivateFunction: _removeRequest
      *  _Private_ function to remove a request from the queue.
      *
@@ -410,7 +409,8 @@ Strophe.Bosh.prototype = {
                           "." + req.sends + " posting");
 
             try {
-                req.xhr.open("POST", this.service, true);
+                var async = !('sync' in this && this.sync === true);
+                req.xhr.open("POST", this.service, async);
             } catch (e2) {
                 Strophe.error("XHR open failed.");
                 if (!this.connection.connected) {
@@ -635,11 +635,11 @@ Strophe.Bosh.prototype = {
             this.connection.disconnect();
             return;
         }
-        
+
         // send each incoming stanza back to the connection
         var that = this;
         Strophe.forEachChild(elem, null, function (child) {
-			that.connection.receiveData(child);
+            that.connection.receiveData(child);
         });
     },
 
@@ -662,14 +662,14 @@ Strophe.Bosh.prototype = {
             this.connection._onDisconnectTimeout();
         }
     },
-    
+
     _doDisconnect: function()
     {
         this.sid = null;
         this.streamId = null;
         this.rid = Math.floor(Math.random() * 4294967295);
     },
-    
+
     send: function(elem)
     {
         if (elem === null) { return ; }
@@ -686,7 +686,7 @@ Strophe.Bosh.prototype = {
         clearTimeout(this._idleTimeout);
         this._idleTimeout = setTimeout(this._onIdle.bind(this), 100);
     },
-    
+
     /** PrivateFunction: _queueData
     * Queue outgoing data for later sending. Also ensures that the data
     * is a DOMElement.
@@ -702,7 +702,7 @@ Strophe.Bosh.prototype = {
         }
         this._data.push(element);
     },
-    
+
     _connect_cb: function (req, _callback)
     {
         var bodyWrap = req.getResponse();
@@ -725,9 +725,9 @@ Strophe.Bosh.prototype = {
                 if (cond == "remote-stream-error" && conflict.length > 0) {
                     cond = "conflict";
                 }
-                this._changeConnectStatus(Strophe.Status.CONNFAIL, cond);
+                this.connection._changeConnectStatus(Strophe.Status.CONNFAIL, cond);
             } else {
-                this._changeConnectStatus(Strophe.Status.CONNFAIL, "unknown");
+                this.connection._changeConnectStatus(Strophe.Status.CONNFAIL, "unknown");
             }
             return;
         }
@@ -746,10 +746,10 @@ Strophe.Bosh.prototype = {
         if (hold) { this.hold = parseInt(hold, 10); }
         var wait = bodyWrap.getAttribute('wait');
         if (wait) { this.wait = parseInt(wait, 10); }
-        
+
         this.connection._connect_cb(bodyWrap);
     },
-    
+
     authenticationNotFound: function(callback) {
         // we didn't get stream:features yet, so we need wait for it
         // by sending a blank poll request
@@ -761,7 +761,7 @@ Strophe.Bosh.prototype = {
                                 body.tree().getAttribute("rid")));
         this._throttledRequestHandler();
     },
-    
+
     _onDisconnectTimeout: function() {
         // cancel all remaining requests and clear the queue
         var req;
@@ -773,61 +773,17 @@ Strophe.Bosh.prototype = {
             // is necessary for IE6
             req.xhr.onreadystatechange = function () {};
         }
-        
+
     },
-    
-    
-    /** PrivateFunction: _onIdle
-     *  _Private_ handler to process events during idle cycle.
-     *
-     *  This handler is called every 100ms to fire timed handlers that
-     *  are ready and keep poll requests going.
-     */
-    _onIdle: function ()
-    {
-        var i, thand, since, newList;
 
-        // add timed handlers scheduled for addition
-        // NOTE: we add before remove in the case a timed handler is
-        // added and then deleted before the next _onIdle() call.
-        while (this.connection.addTimeds.length > 0) {
-            this.connection.timedHandlers.push(this.connection.addTimeds.pop());
-        }
-
-        // remove timed handlers that have been scheduled for deletion
-        while (this.connection.removeTimeds.length > 0) {
-            thand = this.connection.removeTimeds.pop();
-            i = this.connection.timedHandlers.indexOf(thand);
-            if (i >= 0) {
-                this.connection.timedHandlers.splice(i, 1);
-            }
-        }
-
-        // call ready timed handlers
-        var now = new Date().getTime();
-        newList = [];
-        for (i = 0; i < this.connection.timedHandlers.length; i++) {
-            thand = this.connection.timedHandlers[i];
-            if (this.connection.authenticated || !thand.user) {
-                since = thand.lastCalled + thand.period;
-                if (since - now <= 0) {
-                    if (thand.run()) {
-                        newList.push(thand);
-                    }
-                } else {
-                    newList.push(thand);
-                }
-            }
-        }
-        this.connection.timedHandlers = newList;
-
+    _onIdle: function() {
         var body, time_elapsed;
 
         // if no requests are in progress, poll
         if (this.connection.authenticated && this._requests.length === 0 &&
             this._data.length === 0 && !this.connection.disconnecting) {
             Strophe.info("no requests during idle cycle, sending " +
-                         "blank request");
+                "blank request");
             this._data.push(null);
         }
 
@@ -852,9 +808,9 @@ Strophe.Bosh.prototype = {
             this._data = [];
             this._requests.push(
                 new Strophe.Request(body.tree(),
-                                    this._onRequestStateChange.bind(
-                                        this, this._dataRecv.bind(this)),
-                                    body.tree().getAttribute("rid")));
+                    this._onRequestStateChange.bind(
+                        this, this._dataRecv.bind(this)),
+                    body.tree().getAttribute("rid")));
             this._processRequest(this._requests.length - 1);
         }
 
@@ -869,35 +825,20 @@ Strophe.Bosh.prototype = {
 
             if (time_elapsed > Math.floor(Strophe.TIMEOUT * this.wait)) {
                 Strophe.warn("Request " +
-                             this._requests[0].id +
-                             " timed out, over " + Math.floor(Strophe.TIMEOUT * this.wait) +
-                             " seconds since last activity");
+                    this._requests[0].id +
+                    " timed out, over " + Math.floor(Strophe.TIMEOUT * this.wait) +
+                    " seconds since last activity");
                 this._throttledRequestHandler();
             }
         }
-
-        clearTimeout(this._idleTimeout);
-
-        // reactivate the timer only if connected
-        if (this.connection.connected) {
-            this._idleTimeout = setTimeout(this._onIdle.bind(this), 100);
-        }
     },
-    
-    restart: function()
-    {
+
+    restart: function() {
         this._data.push("restart");
 
         this._throttledRequestHandler();
-        clearTimeout(this._idleTimeout);
-        this._idleTimeout = setTimeout(this._onIdle.bind(this), 100);
     },
-    
-    flush: function()
-    {
-        // cancel the pending idle period and run the idle function
-        // immediately
-        clearTimeout(this._idleTimeout);
-        this._onIdle();
+
+    flush: function() {
     }
 };
